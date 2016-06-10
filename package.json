@@ -1,0 +1,28 @@
+{
+  "name": "container-var",
+  "version": "1.0.0",
+  "description": "To normalize environment variables provided to nodejs environment process.env by cloud containers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Subomi/container-var.git"
+  },
+  "keywords": [
+    "process.env",
+    "env",
+    "process",
+    "environment",
+    "variables",
+    "cloud",
+    "containers"
+  ],
+  "author": "Subomi Oluwalana <subomioluwalana71@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Subomi/container-var/issues"
+  },
+  "homepage": "https://github.com/Subomi/container-var"
+}
