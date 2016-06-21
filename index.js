@@ -1,11 +1,8 @@
+"use strict";
 /*
 	Main and Only module
-
 */
 
-var env = {};
-
-// Tests
 /*
 
 Matches different parameters, using the expected behaviour of container structures e.g ip etc.
@@ -19,8 +16,8 @@ Matches different parameters, using the expected behaviour of container structur
 6. -parameter-
 7. parameter-
 
-
 */ 
+
 var tests_pattern = {
 	"ip": /[^a-zA-Z]*(IPADDRESS|IP)[^a-zA-Z]*/i, // Matches ip and ipaddress
 	"port": /[^a-zA-Z]*(PORTNUMBER|PORT)[^a-zA-Z]*/i, // Matches port and portnumber
@@ -30,45 +27,49 @@ var tests_pattern = {
 	"temp": /[^a-zA-Z]*TEMP[^a-zA-Z]*/i, // For temporary data storage  
 }
 
-// Tests implicitly against process.env
-var test = (function(test) {
-	var processEnv = process.env;
-	
-	return function test(key, test) {
-		var EnvKeys = Object.keys(processEnv);
+// Exported Object
+var env = {};
 
-		// Keys do the matching on all process.env variables
-		EnvKeys.forEach(function(item, index, array) {
-			var result = test.exec(item);
-			if(result === null) {
-				env[key] = undefined;
-				return;
-			}
-			// pass in value, if key matched!
-			env[key] = processEnv[item];
-		});
-		
+exports = module.exports = resolute;
+
+function match(test, array) {
+	var result
+	if(!test) {
+		return "No test pattern";
+	}  
+
+	if(array) {
+		// Check if array is a string or an actual array
+		if(array.constructor.name === "String") {
+			result = test.exec(array); 
+			console.log("error");
+			return result === true ? array : -1;
+		}
 	}
-	
-})() // <- prepares test for testing!
 
-/*
-Receives test object like above
-*/
-function resolution(tests_pat) {
-	
-	if(!tests_pat) {
-		throw new TypeError('Wrong type of test object passed!')
+	for(var i=0; i<=array.length-1; i++) {
+		result = test.exec(array[i]);
+		if(result !== null) {
+			return array[i] ;
+		}
 	}
-	
-	// keys of tests_object
-	var keys = Object.keys(tests_pat);
-	
-	keys.forEach(function(item, index, array) {
-		test(item, tests_pat[item]); 
-	});
-
+	return -1;
 }
 
-exports = module.exports = resolution;
+function resolute(patterns) {
+	var pattern_length, pattern_keys, environment, envkeys, output, result, key, test;
 
+	environment = process.env;
+	envkeys = Object.keys(environment);
+	pattern_keys = Object.keys(patterns);
+
+	for(var i=0; i<=pattern_keys.length-1; i++) {
+		key = pattern_keys[i];
+		test = patterns[key];
+		result = match(test, envkeys);
+
+		env[key] = result === -1 ? undefined : environment[result];
+	}
+
+	//return output;
+}
