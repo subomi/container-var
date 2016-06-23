@@ -56,9 +56,10 @@ function match(test, array) {
 	return -1;
 }
 
-function resolute(patterns) {
-	var pattern_length, pattern_keys, environment, envkeys, output, result, key, test;
+function resolute() {
+	var patterns, pattern_length, pattern_keys, environment, envkeys, output, result, key, test;
 
+	patterns = tests_pattern;
 	environment = process.env;
 	envkeys = Object.keys(environment);
 	pattern_keys = Object.keys(patterns);
@@ -71,5 +72,13 @@ function resolute(patterns) {
 		env[key] = result === -1 ? undefined : environment[result];
 	}
 
-	//return output;
+	return env;
+}
+
+resolute.makeTest = function(name, string) {
+	if(!name) {
+		throw new TypeError("No name supplied");
+	}
+
+	tests_pattern[name] = string || undefined; 
 }
