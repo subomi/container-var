@@ -1,6 +1,6 @@
 {
   "name": "container-var",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "To normalize environment variables provided to nodejs environment process.env by cloud containers",
   "main": "index.js",
   "scripts": {
